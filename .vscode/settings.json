@@ -1,0 +1,7 @@
+{
+"terminal.integrated.inheritEnv": true,
+"ruby.lsp.useBundler": false,
+"ruby.lsp.bundleGemfile": "",
+"ruby.lsp.rubyVersionManager": "none",
+"ruby.lsp.rubyExecutablePath": "/usr/bin/ruby"
+}
