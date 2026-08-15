@@ -16,8 +16,9 @@ module HyperV
           endpoint: endpoint,
           user: user,
           password: password,
-          transport: :negotiate,
-          no_ssl_peer_verification: true
+          transport: :ssl,
+          no_ssl_peer_verification: true,
+	        disable_sspi: false
         )
 
         @fs = WinRM::FS::FileManager.new(@conn)
@@ -28,21 +29,30 @@ module HyperV
         fs.upload("local_test.txt", "C:\\Windows\\Temp\\local_test.txt")
       end
 
-      # Method to create a shell
-      def shell
-        @conn.shell(:powershell)
-      end
-
       # Method to run commands
       def run(command)
-        shell.run(command)
+        @conn.shell(:powershell) do |shell|
+          shell.run(command)
+        end
       end
+
+
 
       # Method to test "hostname" command
 
       def test_hostname
         result = run("hostname")
         result.stdout.strip
+      end
+
+      def os_version
+        result = run("Get-ComputerInfo | Select-Object -ExpandProperty OsName")
+        result.stdout.strip
+      end
+
+      def vm_list
+        result = run("Get-VM")
+        result.stdout
       end
 
     end
