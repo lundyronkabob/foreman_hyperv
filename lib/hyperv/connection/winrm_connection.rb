@@ -4,24 +4,53 @@ require 'winrm-fs'
 module HyperV
   module Connection
     class WinRMConnection
-      attr_reader :endpoint, :user, :password, :conn, :fs
+      attr_reader :endpoint, :user, :password, :transport, :conn, :fs
 
       # Method to create connection
-      def initialize(endpoint:, user:, password:)
-        @endpoint = endpoint
+      def initialize(endpoint:, user:, password:, transport: nil)
+        @endpoint = normalize_endpoint(endpoint)
         @user = user
         @password = password
+        @transport = transport || detect_transport(@endpoint)
 
-        @conn = WinRM::Connection.new(
-          endpoint: endpoint,
-          user: user,
-          password: password,
-          transport: :ssl,
-          no_ssl_peer_verification: true,
-	        disable_sspi: false
-        )
-
+        @conn = build_connection
         @fs = WinRM::FS::FileManager.new(@conn)
+      end
+
+      def normalize_endpoint(ep)
+        ep = ep.to_s.strip
+        return ep if ep.end_with?('/wsman')
+        "#{ep}/wsman"
+      end
+
+      def detect_transport(ep)
+        return :ssl       if ep.start_with?('https://')
+        return :plaintext if ep.start_with?('http://')
+        :ssl
+      end
+
+      def build_connection
+        case @transport
+        when :ssl
+          WinRM::Connection.new(
+            endpoint: @endpoint,
+            user:     @user,
+            password: @password,
+            transport: :ssl,
+            no_ssl_peer_verification: true,
+            disable_sspi: false    
+          )
+        when :plaintext
+          WinRM::Connection.new(
+            endpoint: @endpoint,
+            user:     @user,
+            password: @password,
+            transport: :plaintext,
+            disable_sspi: false
+          )
+        else
+          raise ArgumentError, "Unsupported transport: #{@transport}"
+        end
       end
 
       # Method to test file manager
