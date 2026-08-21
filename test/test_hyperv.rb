@@ -13,14 +13,14 @@ ENDPOINT = "https://#{HOST}:5986/wsman"
 
 puts "Initializing WinRM connection..."
 
-conn = HyperV::Connection::WinRMConnection.new(
+conn = ComputeResources::ForemanHyperv::WinrmConnection.new(
   endpoint: ENDPOINT,
   user: USER,
   password: PASSWORD,
   transport: :ssl
 )
 
-runner = HyperV::Connection::CommandRunner.new(conn)
+runner = ComputeResources::ForemanHyperv::CommandRunner.new(conn)
 
 puts "Running basic PowerShell test..."
 ps_result = runner.run_ps("Get-VM | Select-Object Name | ConvertTo-Json")
@@ -32,7 +32,7 @@ puts "STDERR:"
 puts ps_result[:stderr]
 
 puts "\nInitializing VMManager..."
-manager = HyperV::VMManager.new(runner)
+manager = ComputeResources::ForemanHyperv::VmManager.new(runner)
 
 puts "Listing VMs..."
 vms = manager.list_vms

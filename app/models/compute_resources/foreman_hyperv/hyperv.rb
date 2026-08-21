@@ -1,9 +1,7 @@
-require_dependency 'hyper_v/connection/winrm_connection'
-require_dependency 'hyper_v/connection/command_runner'
-require_dependency 'hyper_v/vm_manager'
-require_dependency 'hyper_v/vm'
-
-
+require_dependency 'compute_resources/foreman_hyperv/winrm_connection'
+require_dependency 'compute_resources/foreman_hyperv/command_runner'
+require_dependency 'compute_resources/foreman_hyperv/vm_manager'
+require_dependency 'compute_resources/foreman_hyperv/vm'
 
 module ComputeResources
   module ForemanHyperv
@@ -27,7 +25,7 @@ module ComputeResources
       end
 
       def hyperv_client
-        ::HyperV::Connection::WinRMConnection.new(
+        WinrmConnection.new(
           endpoint: self.url,
           user: self.user,
           password: self.password,

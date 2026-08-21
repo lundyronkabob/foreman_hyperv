@@ -1,5 +1,5 @@
-module HyperV
-  module Connection
+module ComputeResources
+  module ForemanHyperv
     class CommandRunner
 
       def initialize(connection)

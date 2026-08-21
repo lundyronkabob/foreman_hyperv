@@ -1,9 +1,9 @@
 require 'winrm'
 require 'winrm-fs'
 
-module HyperV
-  module Connection
-    class WinRMConnection
+module ComputeResources
+  module ForemanHyperv
+    class WinrmConnection
       attr_reader :endpoint, :user, :password, :transport, :conn, :fs
 
       def initialize(endpoint:, user:, password:, transport: nil)
