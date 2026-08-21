@@ -6,6 +6,7 @@ module ForemanHyperv
       app.reloader.to_prepare do
         Foreman::Plugin.register :foreman_hyperv do
           requires_foreman '>=3.0'
+          compute_resource ComputeResources::ForemanHyperv::Hyperv
         end
       end
     end

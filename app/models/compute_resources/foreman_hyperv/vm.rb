@@ -1,6 +1,6 @@
 module ComputeResources
   module ForemanHyperv
-    class Vm
+    class VM
       attr_reader :id, :name, :state, :cpu_usage, :memory_assigned,
                   :uptime, :status, :version
 
