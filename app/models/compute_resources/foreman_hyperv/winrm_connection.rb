@@ -6,7 +6,6 @@ module HyperV
     class WinRMConnection
       attr_reader :endpoint, :user, :password, :transport, :conn, :fs
 
-      # Method to create connection
       def initialize(endpoint:, user:, password:, transport: nil)
         @endpoint = normalize_endpoint(endpoint)
         @user = user
@@ -38,7 +37,7 @@ module HyperV
             password: @password,
             transport: :ssl,
             no_ssl_peer_verification: true,
-            disable_sspi: false    
+            disable_sspi: false
           )
         when :plaintext
           WinRM::Connection.new(
@@ -53,21 +52,16 @@ module HyperV
         end
       end
 
-      # Method to test file manager
       def upload_test
         fs.upload("local_test.txt", "C:\\Windows\\Temp\\local_test.txt")
       end
 
-      # Method to run commands
       def run(command)
-        @conn.shell(:powershell) do |shell|
-          shell.run(command)
-        end
+        shell = @conn.shell(:powershell)
+        result = shell.run(command)
+        shell.close
+        result
       end
-
-
-
-      # Method to test "hostname" command
 
       def test_hostname
         result = run("hostname")

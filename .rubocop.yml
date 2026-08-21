@@ -1,0 +1,59 @@
+AllCops:
+  DisabledByDefault: true
+  NewCops: disable
+  Exclude:
+    - 'Gemfile'
+    - 'Gemfile.lock'
+    - 'Rakefile'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'pkg/**/*'
+
+# Allow non‑Rails directory structure
+Layout/LineLength:
+  Enabled: false
+
+# Allow Foreman plugin namespaces
+Naming/ClassAndModuleCamelCase:
+  Enabled: false
+
+# Allow files not matching Rails naming conventions
+Naming/FileName:
+  Enabled: false
+
+# Allow missing documentation (Foreman plugins rarely use it)
+Style/Documentation:
+  Enabled: false
+
+# Allow string keys (PowerShell JSON uses string keys)
+Style/StringLiterals:
+  Enabled: false
+
+# Allow indentation variations (Foreman plugin code is not Rails‑style)
+Layout/IndentationConsistency:
+  Enabled: false
+
+# Allow long methods (WinRM commands often need them)
+Metrics/MethodLength:
+  Enabled: false
+
+# Allow long classes (compute resource providers are large)
+Metrics/ClassLength:
+  Enabled: false
+
+# Allow complex methods (PowerShell parsing is messy)
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+# Allow unused variables (sometimes needed for debugging)
+Lint/UselessAssignment:
+  Enabled: false
+
+# Allow unused method arguments (Foreman sometimes passes extra args)
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+# Allow dynamic constants (Foreman plugins sometimes use them)
+Lint/DynamicConstantAssignment:
+  Enabled: false
+

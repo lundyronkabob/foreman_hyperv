@@ -1,31 +1,30 @@
 module HyperV
   module Connection
     class CommandRunner
-      
+
       def initialize(connection)
         @connection = connection
       end
 
       def run_ps(command)
-        @connection.conn.shell(:powershell) do |shell|
-          result = shell.run(command)
+        shell = @connection.conn.shell(:powershell)
+        result = shell.run(command)
+        shell.close
 
-          {
-            stdout:   result.stdout,
-            stderr:   result.stderr,
-            exitcode: result.exitcode
-          }
-        end
+        {
+          stdout:   result.stdout,
+          stderr:   result.stderr,
+          exitcode: result.exitcode
+        }
       end
 
-        def run_raw(command)
-          @connection.conn.shell(:powershell) do |shell|
-            shell.run(command)
-        
-          end
-        end
+      def run_raw(command)
+        shell = @connection.conn.shell(:powershell)
+        result = shell.run(command)
+        shell.close
+        result
+      end
 
     end
   end
-
 end

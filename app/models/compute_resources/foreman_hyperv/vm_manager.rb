@@ -11,7 +11,7 @@ module HyperV
       ps = "Get-VM | Select-Object Id,Name,State,CPUUsage,MemoryAssigned,Uptime,Status,Version | ConvertTo-Json"
       result = @runner.run_ps(ps)
 
-      return [] if result[:exitcode] != 0 || result[:stdout].strip.empty? 
+      return [] if result[:exitcode] != 0 || result[:stdout].strip.empty?
 
       parsed = JSON.parse(result[:stdout])
       parsed = [parsed] if parsed.is_a?(Hash)
@@ -28,12 +28,11 @@ module HyperV
           version:          vm["Version"]
         )
       end
-
     end
-    
+
     def find_vm_by_name(name)
       result = @runner.run_ps("Get-VM -Name \"#{name}\" | Select-Object Id,Name,State,CPUUsage,MemoryAssigned,Uptime,Status,Version | ConvertTo-Json")
-      
+
       return nil if result[:exitcode] != 0 || result[:stdout].strip.empty?
 
       vm = JSON.parse(result[:stdout])
@@ -53,7 +52,5 @@ module HyperV
     def find_vm(uuid)
       find_vm_by_name(uuid)
     end
-
-
   end
 end
