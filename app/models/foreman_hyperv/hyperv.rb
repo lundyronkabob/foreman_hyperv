@@ -24,12 +24,28 @@ require_dependency 'foreman_hyperv/vm'
       end
 
       def hyperv_client
+        normalized = normalize_url_value(self.url, self.transport)
+
         WinrmConnection.new(
-          endpoint: self.url,
+          endpoint: normalized,
           user: self.user,
           password: self.password,
           transport: self.attrs[:transport]
         )
+      end
+
+      def normalize_url_value(raw, transport)
+        hostname = raw.to_s.strip
+
+        if transport.to_s == 'plaintext'
+          scheme = 'http'
+          port   = 5985
+        else
+          scheme = 'https'
+          port   = 5986
+        end
+
+        "#{scheme}://#{hostname}:#{port}/wsman"
       end
 
      def capabilities
