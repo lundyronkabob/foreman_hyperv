@@ -9,7 +9,7 @@ HOST     = "kaamshaam.cheeky.local"
 USER     = "hb19867"
 PASSWORD = "t0Ph3rqu3z<3navu"
 
-ENDPOINT = "https://#{HOST}:5986/wsman"
+ENDPOINT = "http://#{HOST}:5985/wsman"
 
 puts "Initializing WinRM connection..."
 
@@ -32,7 +32,7 @@ puts "STDERR:"
 puts ps_result[:stderr]
 
 puts "\nInitializing VMManager..."
-manager = ComputeResources::ForemanHyperv::VmManager.new(runner)
+manager = ComputeResources::ForemanHyperv::VMManager.new(runner)
 
 puts "Listing VMs..."
 vms = manager.list_vms

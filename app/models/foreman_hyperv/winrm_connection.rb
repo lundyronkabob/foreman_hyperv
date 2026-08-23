@@ -1,7 +1,6 @@
 require 'winrm'
 require 'winrm-fs'
 
-module ComputeResources
   module ForemanHyperv
     class WinrmConnection
       attr_reader :endpoint, :user, :password, :transport, :conn, :fs
@@ -80,4 +79,3 @@ module ComputeResources
 
     end
   end
-end

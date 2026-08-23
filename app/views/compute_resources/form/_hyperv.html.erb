@@ -1,5 +1,14 @@
-<%# foreman_hyperv/app/views/compute_resources/form/_hyperv.html.erb %>
+<%= text_f f, :url, label: _("Hyper-V Host") %>
 
-<%= fields_for :compute_resource, @compute_resource do |f| %>
-    <p>Microsoft Hyper-V provider form is wired correctly. </p>
+<%= text_f f, :user, label: _("Username") %>
+
+<%= password_f f, :password, label: _("Password") %>
+
+<%= field(f, :transport, label: _("Transport")) do %>
+  <%= f.select :transport,
+        [["HTTP", "plaintext"], ["HTTPS", "ssl"]],
+        { selected: f.object.transport },
+        class: "form-control" %>
 <% end %>
+
+<%= test_connection_button_f(f, f.object.connection_valid?) %>

@@ -1,6 +1,5 @@
 require 'json'
 
-module ComputeResources
   module ForemanHyperv
     class VMManager
       def initialize(runner)
@@ -55,4 +54,3 @@ module ComputeResources
       end
     end
   end
-end

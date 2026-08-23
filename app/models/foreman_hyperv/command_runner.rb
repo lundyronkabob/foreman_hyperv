@@ -1,4 +1,3 @@
-module ComputeResources
   module ForemanHyperv
     class CommandRunner
 
@@ -27,4 +26,3 @@ module ComputeResources
 
     end
   end
-end

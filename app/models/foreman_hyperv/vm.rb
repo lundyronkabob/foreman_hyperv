@@ -1,4 +1,3 @@
-module ComputeResources
   module ForemanHyperv
     class VM
       attr_reader :id, :name, :state, :cpu_usage, :memory_assigned,
@@ -74,4 +73,3 @@ module ComputeResources
       end
     end
   end
-end
