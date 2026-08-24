@@ -34,7 +34,7 @@ require 'json'
         parsed = [parsed] if parsed.is_a?(Hash)
 
         parsed.map do |vm|
-          Vm.new(
+          VM.new(
             id:               vm["Id"],
             name:             vm["Name"],
             state:            vm["State"],
@@ -56,7 +56,7 @@ require 'json'
 
         vm = JSON.parse(result[:stdout])
 
-        Vm.new(
+        VM.new(
           id:               vm["Id"],
           name:             vm["Name"],
           state:            vm["State"],
