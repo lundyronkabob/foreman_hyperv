@@ -48,6 +48,33 @@ require_dependency 'foreman_hyperv/vm'
         "#{scheme}://#{hostname}:#{port}/wsman"
       end
 
+      def supports_vms?
+        true
+      end
+
+      def supports_power?
+        true
+      end
+
+      def vms(*args)
+        runner  = ForemanHyperv::CommandRunner.new(hyperv_client)
+        manager = ForemanHyperv::VMManager.new(runner)
+
+        vms = manager.list_vms.map do |vm|
+          ForemanHyperv::ForemanVM.new(
+            compute_resource: self,
+            id: vm.id,
+            name: vm.name,
+            state: vm.normalized_state,
+            memory: vm.normalized_memory,
+            cpus: vm.cpu_usage
+          )
+        end
+
+        ForemanHyperv::VMCollection.new(vms)
+      end
+
+
      def capabilities
        [:build]
      end

@@ -1,0 +1,21 @@
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>State</th>
+      <th>Memory</th>
+      <th>CPUs</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @vms.each do |vm| %>
+      <tr>
+        <td><%= vm.name %></td>
+        <td><%= vm.state %></td>
+        <td><%= vm.memory %></td>
+        <td><%= vm.cpus %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
