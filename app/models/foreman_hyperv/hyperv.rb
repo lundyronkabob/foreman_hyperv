@@ -67,7 +67,7 @@ require_dependency 'foreman_hyperv/vm'
             name: vm.name,
             state: vm.normalized_state,
             memory: vm.normalized_memory,
-            cpus: vm.cpu_usage
+            cpus: vm.cpu_count
           )
         end
 

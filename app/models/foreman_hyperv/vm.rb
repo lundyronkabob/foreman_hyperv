@@ -1,12 +1,13 @@
   module ForemanHyperv
     class VM
-      attr_reader :id, :name, :state, :cpu_usage, :memory_assigned,
+      attr_reader :id, :name, :state, :cpu_count, :cpu_usage, :memory_assigned,
                   :uptime, :status, :version
 
-      def initialize(id:, name:, state:, cpu_usage:, memory_assigned:, uptime:, status:, version:)
+      def initialize(id:, name:, state:, cpu_count:, cpu_usage:, memory_assigned:, uptime:, status:, version:)
         @id              = id
         @name            = name
         @state           = state
+        @cpu_count       = cpu_count
         @cpu_usage       = cpu_usage
         @memory_assigned = memory_assigned
         @uptime          = uptime

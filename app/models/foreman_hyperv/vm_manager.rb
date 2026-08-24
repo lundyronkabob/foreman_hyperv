@@ -7,7 +7,25 @@ require 'json'
       end
 
       def list_vms
-        ps = "Get-VM | Select-Object Id,Name,State,CPUUsage,MemoryAssigned,Uptime,Status,Version | ConvertTo-Json"
+
+         ps = <<~POWERSHELL
+           Get-VM | ForEach-Object {
+           $vm = $_
+           $cpu = (Get-VMProcessor -VMName $vm.Name).Count
+           [PSCustomObject]@{
+             Id              = $vm.Id
+             Name            = $vm.Name
+             State           = $vm.State
+             CPUCount        = $cpu
+             CPUUsage        = $vm.CPUUsage
+             MemoryAssigned  = $vm.MemoryAssigned
+             Uptime          = $vm.Uptime
+             Status          = $vm.Status
+             Version         = $vm.Version
+           }
+         } | ConvertTo-Json
+         POWERSHELL
+
         result = @runner.run_ps(ps)
 
         return [] if result[:exitcode] != 0 || result[:stdout].strip.empty?
@@ -20,6 +38,7 @@ require 'json'
             id:               vm["Id"],
             name:             vm["Name"],
             state:            vm["State"],
+            cpu_count:        vm["CPUCount"],
             cpu_usage:        vm["CPUUsage"],
             memory_assigned:  vm["MemoryAssigned"],
             uptime:           vm["Uptime"],
