@@ -15,6 +15,14 @@
         @version         = version
       end
 
+      def identity
+        id
+      end
+
+      def to_s
+        name
+      end
+
       def normalized_state
         case @state
         when 0 then "Off"

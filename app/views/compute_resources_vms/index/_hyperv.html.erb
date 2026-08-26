@@ -2,9 +2,10 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>State</th>
-      <th>Memory</th>
       <th>CPUs</th>
+      <th>Memory</th>
+      <th>Power</th>
+      <th>Actions</th>
     </tr>
   </thead>
 
@@ -12,9 +13,34 @@
     <% @vms.each do |vm| %>
       <tr>
         <td><%= vm.name %></td>
-        <td><%= vm.state %></td>
-        <td><%= vm.memory %></td>
         <td><%= vm.cpus %></td>
+        <td><%= vm.memory %></td>
+        <td>
+          <% if vm.state == "Running" %>
+            <span class="label label-success">On</span>
+          <% else %>
+            <span class="label label-danger">Off</span>
+          <% end %>
+        </td>
+        
+        <td>
+          <% if vm.state == "Running" %>
+            <%= link_to "Power Off" ,
+               foreman_hyperv_stop_vm_path(@compute_resource.id, vm.id),
+               method: :post,
+               class: "btn btn-sm btn-danger" %>
+          <% else %>
+            <%= link_to "Power On",
+                foreman_hyperv_start_vm_path(@compute_resource.id, vm.id),
+                method: :post,
+                class: "btn btn-sm btn-success" %>
+          <% end %>
+
+          <%= link_to "Reboot",
+              foreman_hyperv_reboot_vm_path(@compute_resource.id, vm.id),
+              method: :post,
+              class: "btn btn-sm btn-warning" %>
+          </td>  
       </tr>
     <% end %>
   </tbody>
