@@ -121,29 +121,37 @@ require_dependency 'foreman_hyperv/vm'
       end
 
       def start(vm)
+        runner = ForemanHyperv::CommandRunner.new(hyperv_client)
         ps = "Get-VM -Id \"#{vm.id}\" | Start-VM"
-        result = hyperv_client.run_ps(ps)
+        result = runner.run_ps(ps)
         raise ::Foreman::Exception.new("Start-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
         true
       end
 
       def stop(vm)
+        runner = ForemanHyperv::CommandRunner.new(hyperv_client)
         ps = "Get-VM -Id \"#{vm.id}\" | Stop-VM"
-        result = hyperv_client.run_ps(ps)
+        result = runner.run_ps(ps)
         raise ::Foreman::Exception.new("Stop-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
         true
       end
-
+      
       def reboot(vm)
-        ps = "Get-VM -Id \"#{vm.id}\" | Restart-VM"
-        result = hyperv_client.run_ps(ps)
-        raise ::Foreman::Exception.new("Restart-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
+        runner = ForemanHyperv::CommandRunner.new(hyperv_client)
+        stop_ps = "Get-VM -Id \"#{vm.id}\" | Stop-VM"
+        stop_result = runner.run_ps(stop_ps)
+        raise ::Foreman::Exception.new("Graceful shutdown failed:  #{stop_result[:stderr]}") if stop_result[:exitcode] != 0
+
+        start_ps = "Get-VM -Id \"#{vm.id}\" | Start-VM"
+        start_result = runner.run_ps(start_ps)
+        raise ::Foreman::Exception.new("Start-VM Failed: #{start_result[:stderr]}") if start_result[:exitcode] != 0
         true
       end
 
       def reset(vm)
+        runner = ForemanHyperv::CommandRunner.new(hyperv_client)
         ps = "Get-VM -Id \"#{vm.id}\" | Restart-VM -Force"
-        result = hyperv_client.run_ps(ps)
+        result = runner.run_ps(ps)
         raise ::Foreman::Exception.new("Reset-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
         true
       end
