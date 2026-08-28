@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir[
     "app/**/*",
+    "config/**/*"
     "lib/foreman_hyperv.rb",
     "lib/foreman_hyperv/**/*",
     "README.md"
