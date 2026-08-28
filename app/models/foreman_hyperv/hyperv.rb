@@ -121,28 +121,28 @@ require_dependency 'foreman_hyperv/vm'
       end
 
       def start(vm)
-        ps = "Start-VM -Name \"#{vm.name}\""
+        ps = "Get-VM -Id \"#{vm.id}\" | Start-VM"
         result = hyperv_client.run_ps(ps)
         raise ::Foreman::Exception.new("Start-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
         true
       end
 
       def stop(vm)
-        ps = "Stop-VM -Name \"#{vm.name}\""
+        ps = "Get-VM -Id \"#{vm.id}\" | Stop-VM"
         result = hyperv_client.run_ps(ps)
         raise ::Foreman::Exception.new("Stop-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
         true
       end
 
       def reboot(vm)
-        ps = "Restart-VM -Name \"#{vm.name}\""
+        ps = "Get-VM -Id \"#{vm.id}\" | Restart-VM"
         result = hyperv_client.run_ps(ps)
         raise ::Foreman::Exception.new("Restart-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
         true
       end
 
       def reset(vm)
-        ps = "Reset-VM -Name \"#{vm.name}\""
+        ps = "Get-VM -Id \"#{vm.id}\" | Restart-VM -Force"
         result = hyperv_client.run_ps(ps)
         raise ::Foreman::Exception.new("Reset-VM failed: #{result[:stderr]}") if result[:exitcode] != 0
         true
